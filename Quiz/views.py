@@ -83,33 +83,33 @@ def addQuestion(request):
 
 @login_required
 def quiz(request, id):
-    obj= Question.objects.all()
-    next=id
-    prev=id-1
-    print(len(obj))
-    if(next<=len(obj) and next>0 and prev>-1):
-        queObj=Question.objects.filter(pk=id)
-        print(queObj)
-        queDict=queObj.values()
-        print(queDict)
-        que=queDict[0]['name']
-        optionList=[queDict[0]['option1'], queDict[0]['option2'], queDict[0]['option3'], queDict[0]['option4']]
-        correctAns= queDict[0]['ans']
-        numberOfQue= [i for i in range(1, len(obj)+1)]
-        next=next+1
-    elif(next>len(obj)+1):
-        next=0
-        return render(request, 'home.html')
-    elif(prev<0):
-        prev=-1
-        return render(request, 'home.html')
-    elif(id==next):
-        que=0
-        optionList=0
-        numberOfQue= None
-
-    print("next="+ str(next))
-    print("id:"+str(id))
+    if request.method== 'GET':
+        obj= Question.objects.all()
+        next=id
+        prev=id-1
+        print(len(obj))
+        if(next<=len(obj) and next>0 and prev>-1):
+            queObj=Question.objects.filter(pk=id)
+            print(queObj)
+            queDict=queObj.values()
+            print(queDict)
+            que=queDict[0]['name']
+            optionList=[queDict[0]['option1'], queDict[0]['option2'], queDict[0]['option3'], queDict[0]['option4']]
+            correctAns= queDict[0]['ans']
+            numberOfQue= [i for i in range(1, len(obj)+1)]
+            next=next+1
+        elif(next>len(obj)+1):
+            next=0
+            return render(request, 'home.html')
+        elif(prev<0):
+            prev=-1
+            return render(request, 'home.html')
+        elif(id==next):
+            que=0
+            optionList=0
+            numberOfQue= None
+            print("next="+ str(next))
+            print("id:"+str(id))
     if request.method=='POST':
         data= request.POST
         currentUser=request.user
